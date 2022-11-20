@@ -9,7 +9,7 @@ public class Driver : MonoBehaviour
     [SerializeField]float moveSpeed = 10f;
     [SerializeField] float slowSpeed = 5f;
     [SerializeField] float boostSpeed = 15f;
- 
+    [SerializeField]float baseSpeed = 10f; 
     // Start is called before the first frame update
     void Start()
     {
@@ -30,15 +30,31 @@ public class Driver : MonoBehaviour
     {
         if (other.tag == "Boost")
         {
-            Debug.Log("Speed Boost!!!");
             moveSpeed = boostSpeed;
+            Debug.Log("Speed Boost!");
+            StartCoroutine(BoostCoroutine());
         }
     }
      void OnCollisionEnter2D(Collision2D other) 
     {
             moveSpeed = slowSpeed;
-   // Wait for some seconds
+            Debug.Log("Slowed!");
+            StartCoroutine(SlowCoroutine());
     }
 
+    //Slow for amount of time
+    IEnumerator SlowCoroutine()
+    {
+        yield return new WaitForSecondsRealtime(1.5f);
+        moveSpeed = baseSpeed;
+        Debug.Log("Back To Normal Speed!");
+    }
+    //Boost for amount of time
+    IEnumerator BoostCoroutine()
+    {
+        yield return new WaitForSecondsRealtime(2.5f);
+        moveSpeed = baseSpeed;
+        Debug.Log("Back To Normal Speed!");
+    }
 } 
 
